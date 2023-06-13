@@ -29,6 +29,9 @@ for (let instrument of products) {
 let addButton = document.getElementsByClassName("addButton");
 let checkout = document.getElementById("checkout");
 let totalElement = document.getElementById("total");
+let minus = document.getElementsByClassName("minus");
+let plus = document.getElementsByClassName("plus");
+let num = document.getElementsByClassName("num");
 
 let cart = [];
 
@@ -46,9 +49,37 @@ for (let i = 0; i < addButton.length; i++) {
             <img src="${cartItem.image}" alt="${cartItem.name}">
             <p>${cartItem.name}</p>
             <p>${cartItem.price} €</p>
-            <p>Quantity: ${cartItem.quantity}</p>
+            <p>Quantity: <span class="minus">-</span> <span class="num">${cartItem.quantity}</span> <span class="plus">+</span></p>
             </div>
             `;
+            for (let i = 0; i < plus.length; i++) {
+                plus[i].addEventListener("click",function() {
+               cart[i].quantity++;
+               num[i].innerHTML = cart[i].quantity;
+               console.table(cart);
+               sumCart();
+            })
+            minus[i].addEventListener("click",function() {
+                if (cart[i].quantity == 1){
+                 cart.splice(i, 1);
+                 checkout.innerHTML = "";
+                 for (let cartItem of cart) {
+                    checkout.innerHTML +=`
+                    <div class="cartItem">
+                    <img src="${cartItem.image}" alt="${cartItem.name}">
+                    <p>${cartItem.name}</p>
+                    <p>${cartItem.price} €</p>
+                    <p>Quantity: <span class="minus">-</span> <span class="num">${cartItem.quantity}</span> <span class="plus">+</span></p>
+                    </div>
+                    `;};
+                }else{
+                 cart[i].quantity--;
+                num[i].innerHTML = cart[i].quantity;}
+                console.table(cart);
+                sumCart();
+                 }
+                )
+            };
             sumCart();
         }
     })
@@ -59,4 +90,5 @@ function sumCart(){
         total = total + (cartItem.price * cartItem.quantity);        
     }
     totalElement.innerHTML = `Total: ${total} €`;
-        }
+        };
+
