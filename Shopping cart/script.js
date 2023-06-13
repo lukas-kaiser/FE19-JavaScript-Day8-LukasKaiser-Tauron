@@ -28,16 +28,16 @@ for (let instrument of products) {
 }
 let addButton = document.getElementsByClassName("addButton");
 let checkout = document.getElementById("checkout");
+let totalElement = document.getElementById("total");
+
 let cart = [];
 
 for (let i = 0; i < addButton.length; i++) {
     addButton[i].addEventListener("click",function() {
        if (cart.find((value) => value.name == products[i].name)){
-        cart[i].quantity++;
-        console.table(cart);
+        products[i].quantity++;
        }else{
         cart.push(products[i]);
-        console.table(cart);
     }
     checkout.innerHTML = "";
         for (let cartItem of cart) {
@@ -46,10 +46,17 @@ for (let i = 0; i < addButton.length; i++) {
             <img src="${cartItem.image}" alt="${cartItem.name}">
             <p>${cartItem.name}</p>
             <p>${cartItem.price} €</p>
-            <p>Quanity: ${cartItem.quantity}</p>
+            <p>Quantity: ${cartItem.quantity}</p>
             </div>
-            `
+            `;
+            sumCart();
         }
     })
-    
 }
+function sumCart(){
+    let total = 0;
+    for (let cartItem of cart) {
+        total = total + (cartItem.price * cartItem.quantity);        
+    }
+    totalElement.innerHTML = `Total: ${total} €`;
+        }
